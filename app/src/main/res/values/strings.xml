@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">ფილმები ქართულად</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="test">test</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_srulad">sruladActivity</string>
+    <string name="dabali">დაბალი</string>
+    <string name="magali">მაღალი</string>
+    <string name="facebook_app_id">3009323629083585</string>
+    <string name="fb_login_protocol_scheme">fb3009323629083585</string>
+
+</resources>

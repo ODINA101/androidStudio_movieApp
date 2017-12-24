@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "439505540900",
+    "firebase_url": "https://movies-7b17f.firebaseio.com",
+    "project_id": "movies-7b17f",
+    "storage_bucket": "movies-7b17f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439505540900:android:1444be15931329a9",
+        "android_client_info": {
+          "package_name": "app.samniashvili.irakli.testdrive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439505540900-lg2k3290l6lpqvhom8vpg4ogv2q38jl2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.samniashvili.irakli.testdrive",
+            "certificate_hash": "05b20b68089fa055be59ff4845c90bed8617063c"
+          }
+        },
+        {
+          "client_id": "439505540900-p0givi80sbq1ram66ka6hcll2ca7b49o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDS-Jo_eVMk1036BpATnhdox_zlJENbUEQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439505540900-p0givi80sbq1ram66ka6hcll2ca7b49o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
