@@ -6,8 +6,50 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_2"
+            android:id="@+id/nav_home"
             android:title="მთავარი" />
+        <item
+            android:id="@+id/nav_animaciuri"
+            android:title="ანიმაციური" />
+        <item
+            android:id="@+id/nav_sashineleba"
+            android:title="საშინელება" />
+        <item
+            android:id="@+id/nav_satavgadasavlo"
+            android:title="სათავგადასავლო" />
+        <item
+            android:id="@+id/nav_istoriuli"
+            android:title="ისტორიული" />
+        <item
+            android:id="@+id/nav_komediuri"
+            android:title="კომედიური" />
+        <item
+            android:id="@+id/nav_fantastika"
+            android:title="ფანტასტიკური" />
+        <item
+            android:id="@+id/nav_drama"
+            android:title="დრამა" />
+        <item
+            android:id="@+id/nav_dokumenturi"
+            android:title="დოკუმენტრური" />
+        <item
+            android:id="@+id/nav_boeviki"
+            android:title="ბოევიკი" />
+        <item
+            android:id="@+id/nav_biografiuli"
+            android:title="ბიოგრაფიული" />
+        <item
+            android:id="@+id/nav_mdzafrsiujetiani"
+            android:title="მძაფრსიუჟეტიანი" />
+        <item
+            android:id="@+id/nav_trileri"
+            android:title="თრილერი" />
+        <item
+            android:id="@+id/nav_mistika"
+            android:title="მისტიკური" />
+        <item
+            android:id="@+id/nav_kriminaluri"
+            android:title="კრიმინალური" />
 
     </group>
 

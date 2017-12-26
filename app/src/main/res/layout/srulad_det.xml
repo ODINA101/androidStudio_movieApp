@@ -10,7 +10,9 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="500dp"
-            android:background="@color/white"
+
+            android:background="@drawable/com_facebook_auth_dialog_header_background"
+            android:backgroundTint="@color/com_facebook_button_login_silver_background_color"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical">

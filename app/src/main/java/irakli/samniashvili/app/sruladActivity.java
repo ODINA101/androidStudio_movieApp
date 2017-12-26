@@ -10,12 +10,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+
 import irakli.samniashvili.app.SruladFragments.comments;
 import irakli.samniashvili.app.SruladFragments.details;
 
 public class sruladActivity extends AppCompatActivity {
     private Toolbar toolbar;
-
+    private InterstitialAd interstitial;
     private static final String TAG = "MainActivity";
     private JobInfo mJob;
     private SectionsPageAdapter mSectionsPageAdapter;
@@ -91,13 +96,40 @@ public class sruladActivity extends AppCompatActivity {
         adapter.addFragment(new comments(), "კომენტარები");
 
         viewPager.setAdapter(adapter);
+        interstitial = new InterstitialAd(this);
+        // Insert the Ad Unit ID
+        interstitial.setAdUnitId("ca-app-pub-6370427711797263/8829887578");
+
+        //Locate the Banner Ad in activity_main.xml
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adRequest = new AdRequest.Builder()
+
+                // Add a test device to show Test Ads
+                .addTestDevice( AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("CC5F2C72DF2B356BBF0DA198")
+                .build();
+
+        // Load ads into Banner Ads
+
+        // Load ads into Interstitial Ads
+        interstitial.loadAd(adRequest);
+
+        // Prepare an Interstitial Ad Listener
+        interstitial.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+                // Call displayInterstitial() function
+                displayInterstitial();
+            }
+        });
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate( R.menu.menu_srulad, menu );
-        return true;
+    public void displayInterstitial() {
+        // If Ads are loaded, show Interstitial else show nothing.
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+        }
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

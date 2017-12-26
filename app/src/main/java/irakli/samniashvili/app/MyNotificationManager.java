@@ -42,15 +42,15 @@ public class MyNotificationManager {
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
         NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
-        bigPictureStyle.setBigContentTitle(title);
+        bigPictureStyle.setBigContentTitle("ფილმები ქართულად");
         bigPictureStyle.setSummaryText( Html.fromHtml(message).toString());
         bigPictureStyle.bigPicture(getBitmapFromURL(url));
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mCtx);
         Notification notification;
-        notification = mBuilder.setSmallIcon(R.mipmap.ic_launcher).setTicker(title).setWhen(0)
+        notification = mBuilder.setSmallIcon(R.mipmap.ic_launcher).setTicker("ფილმები ქართულად").setWhen(0)
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
-                .setContentTitle(title)
+                .setContentTitle("ფილმები ქართულად")
                 .setStyle(bigPictureStyle)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(mCtx.getResources(), R.mipmap.ic_launcher))
@@ -81,7 +81,7 @@ public class MyNotificationManager {
         notification = mBuilder.setSmallIcon(R.mipmap.ic_launcher).setTicker(title).setWhen(0)
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
-                .setContentTitle(title)
+                .setContentTitle("ფილმები ქართულად")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(mCtx.getResources(), R.mipmap.ic_launcher))
                 .setContentText(message)
