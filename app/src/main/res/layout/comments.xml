@@ -1,24 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:id="@+id/comments_Fragment">
+    android:id="@+id/comments_Fragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button1"
+        android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/mEmail"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="122dp" />
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="@string/fblogin" />
 
-    <TextView
-        android:id="@+id/mEmail"
+    <EditText
+        android:id="@+id/comment"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/login_button"
+        android:layout_below="@+id/login_button"
+        android:layout_marginTop="22dp"
+        android:ems="10"
+        android:hint="თქვენი კომენტარი"
+        android:inputType="textPersonName"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/publish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_alignEnd="@+id/comment"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="11dp"
-        android:layout_marginTop="52dp"
-        android:text="აპლიკაცია ჯერ კიდევ იქმნება ამიტომ არ შეგიძლიათ კომენტარებით სარგებლობა ჯერ ჯერობით" />
+        android:layout_marginTop="120dp"
+        android:backgroundTint="?attr/colorError"
+        android:text="გამოქვეყნება"
+        android:textColor="@color/cardview_light_background"
+        android:visibility="gone" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/movies_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/publish"
+        android:layout_marginTop="200dp" />
+
 </RelativeLayout>

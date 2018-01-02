@@ -22,8 +22,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -35,7 +39,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import irakli.samniashvili.app.MainActivity;
 import irakli.samniashvili.app.R;
 import irakli.samniashvili.app.sruladActivity;
 import okhttp3.OkHttpClient;
@@ -47,11 +50,13 @@ import okhttp3.Response;
  */
 
 public class page2 extends Fragment implements SearchView.OnQueryTextListener {
+    private InterstitialAd interstitial;
     private RecyclerView recyclerView;
     public ArrayList<MyData> M_list = new ArrayList<MyData>();
     public ArrayList<String> myarr = new ArrayList<String>();
+    public ArrayList<MyData> List;
     public ProgressDialog dialog;
-
+  public ProgressBar progressBar;
     private CustomAdapter adapter;
     private GridLayoutManager gridLayoutManager;
 
@@ -61,13 +66,47 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
         return view;
     }
 
+    @SuppressLint("CutPasteId")
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated( view, savedInstanceState );
         dialog = new ProgressDialog(getContext());
         dialog.setMessage("იტვირთება");
+
+// Prepare the Interstitial Ad
+        interstitial = new InterstitialAd(getActivity());
+        // Insert the Ad Unit ID
+        interstitial.setAdUnitId("ca-app-pub-6370427711797263/8829887578");
+
+        //Locate the Banner Ad in activity_main.xml
+
+        AdRequest  adRequest = new AdRequest.Builder()
+
+                // Add a test device to show Test Ads
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("CC5F2C72DF2B356BBF0DA198")
+                .build();
+
+        // Load ads into Banner Ads
+
+        // Load ads into Interstitial Ads
+        interstitial.loadAd(adRequest);
+
+        // Prepare an Interstitial Ad Listener
+        interstitial.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+                // Call displayInterstitial() function
+                displayInterstitial();
+            }
+        });
+    }
+    public void displayInterstitial() {
+        // If Ads are loaded, show Interstitial else show nothing.
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+        }
         dialog.show();
         get_Data_from_server( 0 );
-        recyclerView = view.findViewById( R.id.mRecycler );
+        recyclerView = getView().findViewById( R.id.mRecycler );
         adapter = new CustomAdapter( getContext(), M_list );
         gridLayoutManager = new GridLayoutManager( getContext(), 1 );
         recyclerView.setLayoutManager( gridLayoutManager );
@@ -145,7 +184,8 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             holder.name.setText( my_data.get( position ).getName() );
-            Picasso.with( context ).load( my_data.get( position ).getImg() ).into( holder.img );
+            Picasso.with( context ).load( my_data.get( position ).getImg()).placeholder( R.layout.progress_animation ).into( holder.img );
+
             holder.name.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -217,6 +257,7 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
             public TextView des;
             private Button sruladbtn;
             private Button desBtn;
+            private ProgressBar pp;
 
             public ViewHolder(View itemView) {
                 super( itemView );
@@ -224,7 +265,6 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
                 img = itemView.findViewById( R.id.list_img );
                 sruladbtn = itemView.findViewById( R.id.list_srulad );
                 desBtn = itemView.findViewById( R.id.des_btn );
-
             }
         }
 
@@ -242,7 +282,7 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
     }
     @Override
     public boolean onQueryTextChange(String newText) {
-        final List<MyData> filteredModelList = filter(M_list, newText);
+        java.util.List<MyData> filteredModelList = filter(M_list, newText);
 
         adapter.setFilter(filteredModelList);
         return true;

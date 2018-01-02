@@ -35,6 +35,9 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabSelectedTextColor="@android:color/white"
             app:tabTextColor="@color/cardview_light_background" />
     </android.support.design.widget.AppBarLayout>
 

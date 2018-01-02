@@ -20,7 +20,6 @@ import irakli.samniashvili.app.SruladFragments.details;
 
 public class sruladActivity extends AppCompatActivity {
     private Toolbar toolbar;
-    private InterstitialAd interstitial;
     private static final String TAG = "MainActivity";
     private JobInfo mJob;
     private SectionsPageAdapter mSectionsPageAdapter;
@@ -65,7 +64,7 @@ public class sruladActivity extends AppCompatActivity {
         bundle.putString("params", "My String data");
 // set MyFragment Arguments
         details myObj = new details(dat[0],dat[1],dat[2],dat[3],dat[4]);
-
+       comments comments = new comments( dat[0] );
 
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
@@ -91,45 +90,16 @@ public class sruladActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new details(dat[0],dat[1],dat[2],dat[3],dat[4]), "ფილმი");
-        adapter.addFragment(new comments(), "კომენტარები");
+        SectionsPageAdapter adapter = new SectionsPageAdapter( getSupportFragmentManager() );
+        adapter.addFragment( new details( dat[0], dat[1], dat[2], dat[3], dat[4] ), "ფილმი" );
+        adapter.addFragment( new comments( dat[0] ), "კომენტარები" );
 
-        viewPager.setAdapter(adapter);
-        interstitial = new InterstitialAd(this);
+        viewPager.setAdapter( adapter );
+
         // Insert the Ad Unit ID
-        interstitial.setAdUnitId("ca-app-pub-6370427711797263/8829887578");
 
         //Locate the Banner Ad in activity_main.xml
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adRequest = new AdRequest.Builder()
-
-                // Add a test device to show Test Ads
-                .addTestDevice( AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("CC5F2C72DF2B356BBF0DA198")
-                .build();
-
-        // Load ads into Banner Ads
-
-        // Load ads into Interstitial Ads
-        interstitial.loadAd(adRequest);
-
-        // Prepare an Interstitial Ad Listener
-        interstitial.setAdListener(new AdListener() {
-            public void onAdLoaded() {
-                // Call displayInterstitial() function
-                displayInterstitial();
-            }
-        });
     }
-    public void displayInterstitial() {
-        // If Ads are loaded, show Interstitial else show nothing.
-        if (interstitial.isLoaded()) {
-            interstitial.show();
-        }
-
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

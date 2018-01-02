@@ -1,8 +1,11 @@
 package irakli.samniashvili.app;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.Snackbar;
+import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
@@ -28,57 +32,45 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 private Fragment ffragment;
     private static final String TAG = "MainActivity";
-    private InterstitialAd interstitial;
     private AdView mAdView;
+
     private Handler mHandler;       // Handler to display the ad on the UI thread
     private Runnable displayAd;
     Toolbar toolbar;
+    private Snackbar snackbar;
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
+        MultiDex.install(this);
          toolbar = (Toolbar) findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
+        final View parentLayout =  findViewById( R.id.main_content );
+        final ConnectionDetector cd;
+        cd = new ConnectionDetector( this );
+        if (!cd.isConnected())  {
+            Snackbar.make( parentLayout, "გთხოვთ დაუკავშირდეთ ინტერნეტს", Snackbar.LENGTH_INDEFINITE ).setAction( "შემოწმება", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                  if(!cd.isConnected()) {
+                      Snackbar.make( parentLayout, "გთხოვთ დაუკავშირდეთ ინტერნეტს", Snackbar.LENGTH_INDEFINITE );
+                  }
+                }
+            } ).setActionTextColor( getResources().getColor( android.R.color.holo_red_light ) ).show();
+        }
 
 
 
-        mAdView = (AdView) findViewById(R.id.adView);
+        mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-// Prepare the Interstitial Ad
-        interstitial = new InterstitialAd(MainActivity.this);
-        // Insert the Ad Unit ID
-        interstitial.setAdUnitId("ca-app-pub-6370427711797263/8829887578");
 
-        //Locate the Banner Ad in activity_main.xml
-        AdView adView = (AdView) this.findViewById(R.id.adView);
 
-  adRequest = new AdRequest.Builder()
 
-                // Add a test device to show Test Ads
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("CC5F2C72DF2B356BBF0DA198")
-                .build();
 
-        // Load ads into Banner Ads
-        adView.loadAd(adRequest);
 
-        // Load ads into Interstitial Ads
-        interstitial.loadAd(adRequest);
-
-        // Prepare an Interstitial Ad Listener
-        interstitial.setAdListener(new AdListener() {
-            public void onAdLoaded() {
-                // Call displayInterstitial() function
-                displayInterstitial();
-            }
-        });
-    }
-    public void displayInterstitial() {
-        // If Ads are loaded, show Interstitial else show nothing.
-        if (interstitial.isLoaded()) {
-            interstitial.show();
-        }
 
     if(getIntent().getExtras() != null) {
         for(String key : getIntent().getExtras().keySet())
@@ -118,6 +110,7 @@ private Fragment ffragment;
         ft.commit();
 
     }
+
 
 
     @Override
