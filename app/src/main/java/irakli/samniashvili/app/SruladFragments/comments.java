@@ -283,7 +283,7 @@ public class comments extends Fragment {
 
 
     public static class moviesViewHolder extends RecyclerView.ViewHolder {
-        View mView;
+        View mView; 
         Context context;
 
         public moviesViewHolder(View itemView) {
