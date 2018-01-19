@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,8 +41,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -102,6 +97,7 @@ public class comments extends Fragment {
         mLayoutManager = new LinearLayoutManager( getContext() );
         mUsersList.setLayoutManager(mLayoutManager);
         mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd( true );
         accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
@@ -283,7 +279,7 @@ public class comments extends Fragment {
 
 
     public static class moviesViewHolder extends RecyclerView.ViewHolder {
-        View mView; 
+        View mView;
         Context context;
 
         public moviesViewHolder(View itemView) {

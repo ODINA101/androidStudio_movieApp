@@ -5,42 +5,73 @@ package irakli.samniashvili.app.Fragments;
  */
 
 public class MyData {
-    private String name;
-    private String img;
-    private String des;
-    private String videohd;
-    private String videosd;
+    public String name;
+    public String photo;
+    public String des;
+    public String sd;
+    public String hd;
 
-    public MyData(String name,String img,String des,String videohd,String videosd) {
+
+
+
+
+
+    public MyData() {
+
+    }
+    public MyData(String name, String photo, String des, String sd, String hd) {
         this.name = name;
-        this.img = img;
+        this.photo = photo;
         this.des = des;
-        this.videohd = videohd;
-        this.videosd = videosd;
+        this.sd = sd;
+        this.hd = hd;
     }
 
+
+
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getDes() {
+        return des;
+    }
+
+    public void setDes(String des) {
+        this.des = des;
+    }
+
+    public String getSd() {
+        return sd;
+    }
+
+    public void setSd(String sd) {
+        this.sd = sd;
+    }
+
+    public String getHd() {
+        return hd;
+    }
+
+    public void setHd(String hd) {
+        this.hd = hd;
+    }
 
     public String getName() {
         return name;
     }
-    public String getImg() {
-        return img;
-    }
-    public String getdes() {
-        return des;
-    }
-    public String getVideohd() {
-        return videohd;
-    } public String getVideosd() {
-        return videosd;
+
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setName(String name,String img,String des,String videohd,String videosd) {
-        this.name = name;
-        this.name = name;
-        this.img = img;
-        this.des = des;
-        this.videohd = videohd;
-        this.videosd = videosd;
-    }
+
+
+
+
 }

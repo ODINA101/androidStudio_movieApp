@@ -2,18 +2,18 @@ package irakli.samniashvili.app.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,44 +22,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import irakli.samniashvili.app.R;
 import irakli.samniashvili.app.sruladActivity;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by irakli on 12/21/2017.
  */
 
 public class page2 extends Fragment implements SearchView.OnQueryTextListener {
-    private InterstitialAd interstitial;
-    private RecyclerView recyclerView;
-    public ArrayList<MyData> M_list = new ArrayList<MyData>();
-    public ArrayList<String> myarr = new ArrayList<String>();
-    public ArrayList<MyData> List;
+    public DatabaseReference mUsersDatabase;
+    public RecyclerView recyclerView;
+   public Query firebaseSearchQuery;
     public ProgressDialog dialog;
-  public ProgressBar progressBar;
-    private CustomAdapter adapter;
-    private GridLayoutManager gridLayoutManager;
-
+    String des;
+    String hd;
+    String sd;
+    FirebaseRecyclerAdapter<MyData, mydataViewHolder> firebaseRecyclerAdapter;
+    public LinearLayoutManager mLayoutManager;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.page2_layout, container, false );
         setHasOptionsMenu( true );
@@ -69,206 +58,144 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
     @SuppressLint("CutPasteId")
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated( view, savedInstanceState );
-        dialog = new ProgressDialog(getContext());
-        dialog.setMessage("იტვირთება");
+        mUsersDatabase = FirebaseDatabase.getInstance().getReference().child( "ALLmovies").child( getArguments().getString( "url" ));
 
-// Prepare the Interstitial Ad
-        interstitial = new InterstitialAd(getActivity());
-        // Insert the Ad Unit ID
-        interstitial.setAdUnitId("ca-app-pub-6370427711797263/8829887578");
+        dialog = new ProgressDialog( getContext());
 
-        //Locate the Banner Ad in activity_main.xml
+        dialog.setMessage( "იტვირთება" );
+        mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView = view.findViewById( R.id.mRecycler );
+        recyclerView.setHasFixedSize( true );
+        firebaseSearchQuery = mUsersDatabase;
 
-        AdRequest  adRequest = new AdRequest.Builder()
+        recyclerView.setLayoutManager(mLayoutManager );
 
-                // Add a test device to show Test Ads
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("CC5F2C72DF2B356BBF0DA198")
-                .build();
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
 
-        // Load ads into Banner Ads
-
-        // Load ads into Interstitial Ads
-        interstitial.loadAd(adRequest);
-
-        // Prepare an Interstitial Ad Listener
-        interstitial.setAdListener(new AdListener() {
-            public void onAdLoaded() {
-                // Call displayInterstitial() function
-                displayInterstitial();
-            }
-        });
-    }
-    public void displayInterstitial() {
-        // If Ads are loaded, show Interstitial else show nothing.
-        if (interstitial.isLoaded()) {
-            interstitial.show();
-        }
-        dialog.show();
-        get_Data_from_server( 0 );
-        recyclerView = getView().findViewById( R.id.mRecycler );
-        adapter = new CustomAdapter( getContext(), M_list );
-        gridLayoutManager = new GridLayoutManager( getContext(), 1 );
-        recyclerView.setLayoutManager( gridLayoutManager );
-
-        recyclerView.setAdapter( adapter );
 
     }
 
-    private void get_Data_from_server(int i) {
-        @SuppressLint("StaticFieldLeak") AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
+    public void  recyclerviewRefresh() {
+        FirebaseRecyclerAdapter<MyData, mydataViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<MyData, mydataViewHolder>(
 
-
+                MyData.class,
+                R.layout.one_item,
+                mydataViewHolder.class,
+                firebaseSearchQuery
+        ) {
             @Override
-            protected Void doInBackground(Integer... integers) {
-                OkHttpClient client = new OkHttpClient();
-                Bundle args = getArguments();
-                Request request = new Request.Builder().url( args.getString( "url" ) ).build();
+            protected void populateViewHolder(mydataViewHolder viewHolder, final MyData model, int position) {
+                viewHolder.setName( model.getName() );
+                viewHolder.setPhoto(model.getPhoto());
 
-                try {
-                    Response response = client.newCall( request ).execute();
-                    JSONArray jsonArray = new JSONArray( response.body().string() );
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject( i );
-                        MyData data = new MyData( jsonObject.getString( "name" ),
-                                jsonObject.getString( "photo" ),
-                                jsonObject.getString( "description" ),
+                viewHolder.userDesView.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                                jsonObject.getString( "videoHD" ),
-                                jsonObject.getString( "videoSD" ) );
-                        M_list.add( data );
-                        Collections.reverse( M_list );
-                        dialog.dismiss();
+                        AlertDialog alertDialog = new AlertDialog.Builder( getActivity() ).create();
+                        alertDialog.setTitle( "აღწერა" );
+                        alertDialog.setMessage( model.getDes() );
+                        alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "დახურვა",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                } );
+                        alertDialog.show();
+                    }
+                } );
+                viewHolder.userNameBtn.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog alertDialog = new AlertDialog.Builder( getContext() ).create();
+                        alertDialog.setTitle( "სათაური" );
+                        alertDialog.setMessage( model.getName() );
+                        alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "დახურვა",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                } );
+                        alertDialog.show();
+                    }
+                } );
+
+
+                viewHolder.sruladBtn.setOnClickListener( new View.OnClickListener() {
+                    JSONObject myo = new JSONObject();
+                    String arr[] = {model.getName(),
+                            model.getPhoto(),
+                            model.getDes(),
+                            model.getHd(),
+                            model.getSd()};
+
+                    @Override
+                    public void onClick(View v) {
+                        Intent srulad = new Intent( getContext(), sruladActivity.class );
+                        srulad.putExtra( "data", arr );
+                        startActivity( srulad );
+
                     }
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                adapter.notifyDataSetChanged();
+                } );
 
             }
+
+
         };
-        task.execute( i );
+
+        recyclerView.setAdapter(firebaseRecyclerAdapter );
+    }
+
+    public void firebaseUserSearch(String searchText) {
+
+        firebaseSearchQuery = mUsersDatabase.orderByChild( "name" ).startAt( searchText ).endAt( searchText + "\uf8ff" );
+        recyclerviewRefresh();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        firebaseSearchQuery = mUsersDatabase;
+        recyclerviewRefresh();
+
+
+    }
+     public static class mydataViewHolder extends RecyclerView.ViewHolder {
+        Button userDesView;
+        TextView userNameBtn;
+        Button sruladBtn;
+          View mView;
+
+        public mydataViewHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+
+            userDesView = mView.findViewById(R.id.des_btn);
+            userNameBtn = mView.findViewById( R.id.list_item );
+            sruladBtn = mView.findViewById( R.id.list_srulad);
+        }
+
+
+       void setName(String name) {
+
+            TextView userNameView;
+            userNameView = mView.findViewById( R.id.list_item);
+            userNameView.setText(name);
+        }
+        void setPhoto(String photoName) {
+
+            ImageView userImageView = mView.findViewById(R.id.list_img);
+            Log.d("myphotourl",photoName);
+
+            Picasso.with(mView.getContext()).load( Uri.parse(photoName)).placeholder( R.layout.progress_animation ).into(userImageView);
+        }
+
     }
 
 
-
-
-    static class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
-        private Context context;
-        private List<MyData> my_data;
-
-        public CustomAdapter(Context context, List<MyData> my_data) {
-            this.context = context;
-            this.my_data = my_data;
-        }
-        public void setFilter(List<MyData> countryModels) {
-            my_data = new ArrayList<>();
-            my_data.addAll(countryModels);
-            notifyDataSetChanged();
-        }
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from( parent.getContext() ).inflate( R.layout.one_item, parent, false );
-            return new ViewHolder( itemView );
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, final int position) {
-            holder.name.setText( my_data.get( position ).getName() );
-            Picasso.with( context ).load( my_data.get( position ).getImg()).placeholder( R.layout.progress_animation ).into( holder.img );
-
-            holder.name.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog alertDialog = new AlertDialog.Builder( context ).create();
-                    alertDialog.setTitle( "სათაური" );
-                    alertDialog.setMessage( my_data.get( position ).getName() );
-                    alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "დახურვა",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            } );
-                    alertDialog.show();
-                }
-            } );
-            holder.desBtn.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog alertDialog = new AlertDialog.Builder( context ).create();
-                    alertDialog.setTitle( "აღწერა" );
-                    alertDialog.setMessage( my_data.get( position ).getdes() );
-                    alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "დახურვა",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            } );
-                    alertDialog.show();
-                }
-            } );
-
-            holder.sruladbtn.setOnClickListener( new View.OnClickListener() {
-                JSONObject myo = new JSONObject();
-                String arr[] = {my_data.get( position ).getName(),
-                        my_data.get( position ).getImg(),
-                        my_data.get( position ).getdes(),
-                        my_data.get( position ).getVideohd(),
-                        my_data.get( position ).getVideosd()};
-
-                @Override
-                public void onClick(View v) {
-
-
-                        /*
-                        myo.put(  "name",my_data.get(position).getName());
-                        myo.put("img",my_data.get( position ).getImg());
-                        myo.put("des",my_data.get( position ).getdes());
-                        myo.put("videoHD",my_data.get( position ).getVideohd());
-                        myo.put( "videoSD",my_data.get(position).getVideosd());
-*/
-                    Intent srulad = new Intent( context, sruladActivity.class );
-                    srulad.putExtra( "data", arr );
-                    context.startActivity( srulad );
-
-                }
-            } );
-
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return my_data.size();
-        }
-
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            public TextView name;
-            public ImageView img;
-            public TextView des;
-            private Button sruladbtn;
-            private Button desBtn;
-            private ProgressBar pp;
-
-            public ViewHolder(View itemView) {
-                super( itemView );
-                name = itemView.findViewById( R.id.list_item );
-                img = itemView.findViewById( R.id.list_img );
-                sruladbtn = itemView.findViewById( R.id.list_srulad );
-                desBtn = itemView.findViewById( R.id.des_btn );
-            }
-        }
-
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -280,11 +207,13 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
 
 
     }
-    @Override
+   @Override
     public boolean onQueryTextChange(String newText) {
-        java.util.List<MyData> filteredModelList = filter(M_list, newText);
-
-        adapter.setFilter(filteredModelList);
+if(!newText.isEmpty()) {
+    firebaseUserSearch( newText );
+}else{
+    onStart();
+}
         return true;
     }
     @Override
@@ -292,14 +221,9 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
         return false;
     }
 
-    private List<MyData> filter(List<MyData> models, String query) {
-        query = query.toLowerCase();final List<MyData> filteredModelList = new ArrayList<>();
-        for (MyData model : models) {
-            final String text = model.getName().toLowerCase();
-            if (text.contains(query)) {
-                filteredModelList.add(model);
-            }
-        }
-        return filteredModelList;
-    }
+
+
+
+
 }
+

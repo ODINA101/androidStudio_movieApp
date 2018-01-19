@@ -3,27 +3,23 @@ package irakli.samniashvili.app;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import irakli.samniashvili.app.Fragments.page2;
@@ -103,7 +99,7 @@ private Fragment ffragment;
         ffragment = new page2();
         final Bundle url = new Bundle();
 
-        url.putString("url", "http://samniashvili.online/api.php?q=home");
+        url.putString("url", "მთავარი");
         ffragment.setArguments( url );
 
         ft.replace(R.id.main_content,ffragment);
@@ -138,105 +134,105 @@ private Fragment ffragment;
           case R.id.nav_home:
               Bundle bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=home");
+              bundle.putString("url", "მთავარი");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
           case R.id.nav_animaciuri:
                  bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=animaciuri");
+              bundle.putString("url", "ანიმაცია");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
           case R.id.nav_sashineleba:
               bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=sashineleba");
+              bundle.putString("url", "საშინელება");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
           case R.id.nav_satavgadasavlo:
               bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=satavgadasavlo");
+              bundle.putString("url", "სათავგადასავლო");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
           case R.id.nav_istoriuli:
               bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=istoriuli");
+              bundle.putString("url", "ისტორიული");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
           case R.id.nav_komediuri:
               bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=komediuri");
+              bundle.putString("url", "კომედია");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
           case R.id.nav_fantastika:
               bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=fantastika");
+              bundle.putString("url", "ფანტასტიკა");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
           case R.id.nav_drama:
               bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=drama");
+              bundle.putString("url", "დრამა");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
           case R.id.nav_dokumenturi:
               bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=dokumenturi");
+              bundle.putString("url", "დოკუმენტრური");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
           case R.id.nav_boeviki:
               bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=boeviki");
+              bundle.putString("url", "ბოევიკი");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
           case R.id.nav_biografiuli:
               bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=biografiuli");
+              bundle.putString("url", "ბიოგრაფიული");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
           case R.id.nav_mdzafrsiujetiani:
               bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=mdzafrsiujetiani");
+              bundle.putString("url", "მძაფრსიუჟეტიანი");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
          case R.id.nav_trileri:
               bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=trileri");
+              bundle.putString("url", "თრილერი");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
           case R.id.nav_mistika:
               bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=mistika");
+              bundle.putString("url", "მისტიკური");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
           case R.id.nav_kriminaluri:
               bundle = new Bundle();
 
-              bundle.putString("url", "http://samniashvili.online/api.php?q=kriminaluri");
+              bundle.putString("url", "კრიმინალური");
               fragment = new page2();
               fragment.setArguments(bundle);
               break;

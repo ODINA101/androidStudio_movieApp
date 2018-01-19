@@ -25,7 +25,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="18dp"
                 app:srcCompat="@drawable/ic_launcher_background"
-                tools:ignore="VectorDrawableCompat" />
+                tools:ignore="VectorDrawableCompat"
+                android:transitionName="poto"/>
 
 
             <TextView
@@ -48,5 +49,8 @@
                 android:layout_marginEnd="65dp"
                 android:clickable="true"
                 app:srcCompat="@mipmap/ic_play_video" />
+
+
+
         </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

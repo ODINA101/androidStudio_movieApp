@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "439505540900-q7iprlp8n3i73qqhn3nf0djtp498nld1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "irakli.samniashvili.app",
+            "certificate_hash": "43005386a26b58df791263f79af7e5e87b6aebc3"
+          }
+        },
+        {
           "client_id": "439505540900-nfjs5hrguus6qaaamlql19del2lg3m83.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

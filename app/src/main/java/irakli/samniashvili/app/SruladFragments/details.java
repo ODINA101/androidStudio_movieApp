@@ -1,18 +1,14 @@
 package irakli.samniashvili.app.SruladFragments;
 
-import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,10 +18,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.squareup.picasso.Picasso;
 
-import org.xmlpull.v1.XmlPullParser;
-
 import irakli.samniashvili.app.R;
-import me.toptas.fancyshowcase.FancyShowCaseView;
 import ru.whalemare.sheetmenu.SheetMenu;
 
 /**
@@ -101,9 +94,9 @@ public class details extends Fragment {
             interstitial.show();
         }
 
-      final View parentV = getView();
+        final View parentV = getView();
 
-        playMovie = getView().findViewById( R.id.playMovie );
+        playMovie = parentV.findViewById( R.id.playMovie );
         playMovie.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +119,7 @@ public class details extends Fragment {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if(item.getItemId() == R.id.magali) {
-                               Intent movie = new Intent(getContext(),MovieStreamActivty.class);
+                            Intent movie = new Intent(getContext(),MovieStreamActivty.class);
                             movie.putExtra("datahd",videohd1);
                             movie.putExtra( "name",name1 );
                             movie.putExtra( "hd",true );
