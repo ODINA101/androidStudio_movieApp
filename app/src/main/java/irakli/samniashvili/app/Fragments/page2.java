@@ -74,7 +74,7 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
         mLayoutManager.setStackFromEnd(true);
 
 
-    }
+    } 
 
     public void  recyclerviewRefresh() {
         FirebaseRecyclerAdapter<MyData, mydataViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<MyData, mydataViewHolder>(
