@@ -1,14 +1,13 @@
 package irakli.samniashvili.app.Fragments;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -19,14 +18,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -39,7 +39,7 @@ import irakli.samniashvili.app.sruladActivity;
  */
 
 public class page2 extends Fragment implements SearchView.OnQueryTextListener {
-
+   public ProgressBar progressBar3;
     public RecyclerView recyclerView;
    public Query firebaseSearchQuery;
     public DatabaseReference mUsersDatabase;
@@ -58,7 +58,7 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated( view, savedInstanceState );
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child( "ALLmovies").child( getArguments().getString( "url" ));
-
+        progressBar3 = view.findViewById( R.id.progressBar3 );
         mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView = view.findViewById( R.id.mRecycler );
         recyclerView.setHasFixedSize( true );
@@ -84,41 +84,11 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
                 firebaseSearchQuery
         ) {
             @Override
-            protected void populateViewHolder(mydataViewHolder viewHolder, final MyData model, int position) {
+            protected void populateViewHolder(final mydataViewHolder viewHolder, final MyData model, int position) {
                 viewHolder.setName( model.getName() );
                 viewHolder.setPhoto(model.getPhoto());
+                progressBar3.setVisibility( View.GONE );
 
-                viewHolder.userDesView.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        AlertDialog alertDialog = new AlertDialog.Builder( getActivity() ).create();
-                        alertDialog.setTitle( "აღწერა" );
-                        alertDialog.setMessage( model.getDes() );
-                        alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "დახურვა",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                } );
-                        alertDialog.show();
-                    }
-                } );
-                viewHolder.userNameBtn.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog alertDialog = new AlertDialog.Builder( getContext() ).create();
-                        alertDialog.setTitle( "სათაური" );
-                        alertDialog.setMessage( model.getName() );
-                        alertDialog.setButton( AlertDialog.BUTTON_NEUTRAL, "დახურვა",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                } );
-                        alertDialog.show();
-                    }
-                } );
 
 
                 viewHolder.sruladBtn.setOnClickListener( new View.OnClickListener() {
@@ -132,8 +102,9 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
                     @Override
                     public void onClick(View v) {
                         Intent srulad = new Intent( getContext(), sruladActivity.class );
+                    //    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation( (Activity) viewHolder.mView.getContext(),viewHolder.userImageView,"mIMG" );
                         srulad.putExtra( "data", arr );
-                        startActivity( srulad );
+                        startActivity( srulad  );
 
                     }
 
@@ -154,26 +125,21 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
 
     }
 
-  //  @Override
-  ///  public void onStart() {
-   //     super.onStart();
-    //
 
-
-   // }
      public static class mydataViewHolder extends RecyclerView.ViewHolder {
-        Button userDesView;
         TextView userNameBtn;
-        Button sruladBtn;
+       CardView sruladBtn;
           View mView;
+          ProgressBar progressBar;
+         ImageView userImageView;
 
         public mydataViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-
-            userDesView = mView.findViewById(R.id.des_btn);
+           progressBar = itemView.findViewById( R.id.progressBar2 );
             userNameBtn = mView.findViewById( R.id.list_item );
-            sruladBtn = mView.findViewById( R.id.list_srulad);
+            sruladBtn = mView.findViewById( R.id.cardView22 );
+            userImageView  = mView.findViewById( R.id.list_img );
         }
 
 
@@ -185,10 +151,19 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
         }
         void setPhoto(String photoName) {
 
-            ImageView userImageView = mView.findViewById(R.id.list_img);
             Log.d("myphotourl",photoName);
 
-            Picasso.with(mView.getContext()).load( Uri.parse(photoName)).placeholder( R.layout.progress_animation ).into(userImageView);
+            Picasso.with(mView.getContext()).load( Uri.parse(photoName)).placeholder( R.drawable.white).into( userImageView, new Callback() {
+                @Override
+                public void onSuccess() {
+                    progressBar.setVisibility( View.GONE );
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            } );
         }
 
     }

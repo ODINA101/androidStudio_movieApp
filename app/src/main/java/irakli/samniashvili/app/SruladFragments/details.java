@@ -72,10 +72,6 @@ public class details extends Fragment {
                 opensheet();
             }
 
-            // Load ads into Banner Ads
-
-
-            // If Ads are loaded, show Interstitial else show nothing.
 
 
         });
