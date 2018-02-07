@@ -34,7 +34,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
+        </activity>z
         <activity
             android:name=".sruladActivity"
             android:label="@string/title_activity_srulad"

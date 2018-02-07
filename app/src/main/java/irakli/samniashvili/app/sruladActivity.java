@@ -1,19 +1,12 @@
 package irakli.samniashvili.app;
 
 import android.app.job.JobInfo;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
-import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
 
 import irakli.samniashvili.app.SruladFragments.comments;
 import irakli.samniashvili.app.SruladFragments.details;
@@ -21,6 +14,7 @@ import irakli.samniashvili.app.SruladFragments.details;
 public class sruladActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private static final String TAG = "MainActivity";
+
     private JobInfo mJob;
     private SectionsPageAdapter mSectionsPageAdapter;
    private String dat[];
@@ -36,8 +30,6 @@ public class sruladActivity extends AppCompatActivity {
      */
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -45,31 +37,15 @@ public class sruladActivity extends AppCompatActivity {
         dat =  getIntent().getExtras().getStringArray("data");
 
 
-/*
-        Bundle bundleee = new Bundle();
-        bundleee.putString("name", dat[0]);
-        bundleee.putString("img", dat[1]);
-        bundleee.putString("des", dat[2]);
-        bundleee.putString("videoHD", dat[3]);
-        bundleee.putString("videoSD", dat[4]);
-
-
-        Fragment fragobj= new details();
-        fragobj.setArguments(bundleee);
-
-*/
-
 
         Bundle bundle = new Bundle();
         bundle.putString("params", "My String data");
-// set MyFragment Arguments
         details myObj = new details(dat[0],dat[1],dat[2],dat[3],dat[4]);
        comments comments = new comments( dat[0] );
 
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
+
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -87,6 +63,7 @@ public class sruladActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
 
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -96,25 +73,26 @@ public class sruladActivity extends AppCompatActivity {
 
         viewPager.setAdapter( adapter );
 
-        // Insert the Ad Unit ID
-
-        //Locate the Banner Ad in activity_main.xml
     }
-
+    @Override
+    public void onBackPressed()
+    {
+        // code here to show dialog
+        finish();
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // todo: goto back activity from here
 
-                onBackPressed();
+
 
                 finish();
-                return true;
+                break;
 
-            default:
-                return super.onOptionsItemSelected( item );
         }
+        return true;
+
     }
 
 

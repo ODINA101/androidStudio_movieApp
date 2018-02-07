@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.squareup.picasso.Picasso;
 
@@ -64,35 +62,6 @@ public class details extends Fragment {
         mName.setText( des );
         mImage = view.findViewById( R.id.movie_img );
         Picasso.with( getContext() ).load( img1 ).into( mImage );
-        interstitial = new InterstitialAd( getContext() );
-        interstitial.setAdUnitId( "ca-app-pub-6370427711797263/8829887578" );
-
-        AdRequest adRequest = new AdRequest.Builder()
-
-                // Add a test device to show Test Ads
-                .addTestDevice( AdRequest.DEVICE_ID_EMULATOR )
-                .addTestDevice( "CC5F2C72DF2B356BBF0DA198" )
-                .build();
-
-        // Load ads into Banner Ads
-
-        // Load ads into Interstitial Ads
-        interstitial.loadAd( adRequest );
-
-        // Prepare an Interstitial Ad Listener
-        interstitial.setAdListener( new AdListener() {
-            public void onAdLoaded() {
-                // Call displayInterstitial() function
-                displayInterstitial();
-            }
-        } );
-    }
-
-    public void displayInterstitial() {
-        // If Ads are loaded, show Interstitial else show nothing.
-        if (interstitial.isLoaded()) {
-            interstitial.show();
-        }
 
         final View parentV = getView();
 
@@ -102,10 +71,15 @@ public class details extends Fragment {
             public void onClick(View v) {
                 opensheet();
             }
-        } );
+
+            // Load ads into Banner Ads
 
 
-    }
+            // If Ads are loaded, show Interstitial else show nothing.
+
+
+        });
+ }
 
     public void opensheet() {
 

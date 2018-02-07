@@ -1,7 +1,6 @@
 package irakli.samniashvili.app.Fragments;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -40,18 +39,18 @@ import irakli.samniashvili.app.sruladActivity;
  */
 
 public class page2 extends Fragment implements SearchView.OnQueryTextListener {
-    public DatabaseReference mUsersDatabase;
+
     public RecyclerView recyclerView;
    public Query firebaseSearchQuery;
-    public ProgressDialog dialog;
+    public DatabaseReference mUsersDatabase;
     String des;
     String hd;
     String sd;
-    FirebaseRecyclerAdapter<MyData, mydataViewHolder> firebaseRecyclerAdapter;
     public LinearLayoutManager mLayoutManager;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.page2_layout, container, false );
         setHasOptionsMenu( true );
+
         return view;
     }
 
@@ -60,9 +59,6 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
         super.onViewCreated( view, savedInstanceState );
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child( "ALLmovies").child( getArguments().getString( "url" ));
 
-        dialog = new ProgressDialog( getContext());
-
-        dialog.setMessage( "იტვირთება" );
         mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView = view.findViewById( R.id.mRecycler );
         recyclerView.setHasFixedSize( true );
@@ -72,11 +68,14 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
 
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
+        recyclerviewRefresh();
 
 
-    } 
+    }
 
     public void  recyclerviewRefresh() {
+
+
         FirebaseRecyclerAdapter<MyData, mydataViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<MyData, mydataViewHolder>(
 
                 MyData.class,
@@ -155,14 +154,13 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        firebaseSearchQuery = mUsersDatabase;
-        recyclerviewRefresh();
+  //  @Override
+  ///  public void onStart() {
+   //     super.onStart();
+    //
 
 
-    }
+   // }
      public static class mydataViewHolder extends RecyclerView.ViewHolder {
         Button userDesView;
         TextView userNameBtn;
@@ -212,7 +210,9 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
 if(!newText.isEmpty()) {
     firebaseUserSearch( newText );
 }else{
-    onStart();
+    firebaseSearchQuery = mUsersDatabase;
+    recyclerviewRefresh();
+
 }
         return true;
     }

@@ -1,17 +1,18 @@
 package irakli.samniashvili.app.SruladFragments;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import irakli.samniashvili.app.R;
 import cn.jzvd.JZVideoPlayerStandard;
+import irakli.samniashvili.app.R;
 
 public class MovieStreamActivty extends AppCompatActivity {
 private String myurl;
+
 private JZVideoPlayerStandard jzVideoPlayerStandard;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +46,9 @@ private JZVideoPlayerStandard jzVideoPlayerStandard;
     }
 
     public  void  onBackPressed() {
-jzVideoPlayerStandard.backButton.performClick();
 finish();
+        jzVideoPlayerStandard.backButton.performClick();
+
 Log.d("gamosvla","gamovidaaaaaaaaaaaaaaaaaa");
     }
 

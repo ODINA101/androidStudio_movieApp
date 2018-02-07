@@ -167,7 +167,6 @@ public class comments extends Fragment {
         commentText = getView().findViewById(R.id.comment);
         publish = getView().findViewById( R.id.publish );
         if(user != null) {
-            Toast.makeText( getContext(),"შესულიხარ როგორც " + user.getDisplayName(),Toast.LENGTH_LONG).show();
 
            commentText.setVisibility( View.VISIBLE );
            publish.setOnClickListener( new View.OnClickListener() {
