@@ -29,9 +29,7 @@
         <item
             android:id="@+id/nav_drama"
             android:title="დრამა" />
-        <item
-            android:id="@+id/nav_dokumenturi"
-            android:title="დოკუმენტრური" />
+
         <item
             android:id="@+id/nav_boeviki"
             android:title="ბოევიკი" />

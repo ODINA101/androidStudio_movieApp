@@ -1,7 +1,10 @@
 package irakli.samniashvili.app.SruladFragments;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -35,7 +38,8 @@ public class details extends Fragment {
     private String videohd1;
     private String videosd1;
     private InterstitialAd interstitial;
-
+    public FloatingActionButton downloadbtn;
+public DownloadManager downloadManager;
     private FloatingActionButton playMovie;
 
     public details(String name, String img1, String des1, String videohd, String videosd) {
@@ -62,6 +66,16 @@ public class details extends Fragment {
         mName.setText( des );
         mImage = view.findViewById( R.id.movie_img );
         Picasso.with( getContext() ).load( img1 ).into( mImage );
+        downloadbtn = view.findViewById( R.id.download );
+
+
+        downloadbtn.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                opensheet2();
+            }
+        } );
+
 
         final View parentV = getView();
 
@@ -76,6 +90,50 @@ public class details extends Fragment {
 
         });
  }
+    public void opensheet2() {
+
+
+
+        SheetMenu.with(getContext())
+                .setTitle( "გადმოწერა" )
+                .setMenu(R.menu.sheet_menu2)
+                .setAutoCancel(false)
+                .setClick(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if(item.getItemId() == R.id.magali) {
+
+
+                            downloadbtn.setOnClickListener( new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                   downloader( videohd1 );
+
+                                }
+                            } );
+
+                        }else {
+
+                            downloader( videosd1 );
+
+
+
+                        }
+                        return false;
+
+                    }
+                }).show();
+    }
+
+    public void downloader(String url) {
+        downloadManager = (DownloadManager) getContext().getSystemService( Context.DOWNLOAD_SERVICE);
+        Uri uri  = Uri.parse( url );
+
+        DownloadManager.Request request = new DownloadManager.Request( uri );
+        Long reference = downloadManager.enqueue( request );
+
+        request.setNotificationVisibility( DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED );
+    }
 
     public void opensheet() {
 

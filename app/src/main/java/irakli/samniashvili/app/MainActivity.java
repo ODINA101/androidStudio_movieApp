@@ -179,13 +179,7 @@ private Fragment ffragment;
               fragment = new page2();
               fragment.setArguments(bundle);
               break;
-          case R.id.nav_dokumenturi:
-              bundle = new Bundle();
 
-              bundle.putString("url", "დოკუმენტრური");
-              fragment = new page2();
-              fragment.setArguments(bundle);
-              break;
           case R.id.nav_boeviki:
               bundle = new Bundle();
 

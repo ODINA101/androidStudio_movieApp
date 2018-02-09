@@ -42,17 +42,28 @@
                 android:text="ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
                 android:textColor="@android:color/background_dark" />
 
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/des"
+                android:layout_marginStart="50dp"
+                android:clickable="true"
+                app:backgroundTint="@color/colorPrimary"
+                app:srcCompat="@drawable/ic_file_download"
+                tools:ignore="VectorDrawableCompat" />
+
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/playMovie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/movie_img"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="65dp"
+                android:layout_above="@+id/des"
+                android:layout_alignEnd="@+id/movie_img"
+                android:layout_marginEnd="50dp"
                 android:clickable="true"
                 app:backgroundTint="@color/colorPrimary"
                 app:srcCompat="@android:drawable/ic_media_play" />
-
 
 
         </RelativeLayout>

@@ -6,8 +6,8 @@ android {
         applicationId "irakli.samniashvili.app"
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode 23
-        versionName "23.0"
+        versionCode 25
+        versionName "25.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -46,7 +46,9 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:[4,5)'
     compile 'de.hdodenhof:circleimageview:2.2.0'
     compile "com.google.android.gms:play-services-gcm:11.0.4"
+    compile 'com.mindorks.android:prdownloader:0.2.0'
     compile 'com.android.support:multidex:1.0.1'
+
 
 }
 
