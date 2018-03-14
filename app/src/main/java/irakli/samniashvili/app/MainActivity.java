@@ -1,5 +1,6 @@
 package irakli.samniashvili.app;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,7 +31,6 @@ private Fragment ffragment;
     private Handler mHandler;       // Handler to display the ad on the UI thread
     private Runnable displayAd;
     Toolbar toolbar;
-    private Snackbar snackbar;
     private ProgressDialog progressDialog;
 
     @Override
@@ -40,20 +40,8 @@ private Fragment ffragment;
         MultiDex.install(this);
          toolbar = (Toolbar) findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
-        final View parentLayout =  findViewById( R.id.main_content );
-        final ConnectionDetector cd;
-        cd = new ConnectionDetector( this );
-        if (!cd.isConnected())  {
-            Snackbar.make( parentLayout, "გთხოვთ დაუკავშირდეთ ინტერნეტს", Snackbar.LENGTH_INDEFINITE ).setAction( "შემოწმება", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                  if(!cd.isConnected()) {
-                      Snackbar.make( parentLayout, "გთხოვთ დაუკავშირდეთ ინტერნეტს", Snackbar.LENGTH_INDEFINITE );
-                  }
-                }
-            } ).setActionTextColor( getResources().getColor( android.R.color.holo_red_light ) ).show();
-        }
 
+ checkwifi();
 
 
 
@@ -99,6 +87,28 @@ private Fragment ffragment;
 
     }
 
+    @SuppressLint("CutPasteId")
+    public void checkwifi() {
+        final ConnectionDetector cd;
+        final View parentLayout =  findViewById( R.id.main_content );
+
+        cd = new ConnectionDetector(this);
+        final Snackbar snackBar = Snackbar.make(findViewById(R.id.main_content), "გთხოვთ დაუკავშირდეთ ინტერნეტს", Snackbar.LENGTH_LONG);
+
+        if (!cd.isConnected()) {
+
+
+           snackBar.setAction("შემოწმება", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   checkwifi();
+                }
+            }).setActionTextColor(getResources().getColor(android.R.color.holo_red_light)).show();
+        }else{
+            snackBar.dismiss();
+        }
+
+    }
 
 
     @Override

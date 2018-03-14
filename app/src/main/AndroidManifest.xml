@@ -29,6 +29,7 @@
         </activity>
         <activity
             android:name=".PLayer2Activity"
+            android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

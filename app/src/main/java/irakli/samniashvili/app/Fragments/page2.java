@@ -31,6 +31,7 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+import irakli.samniashvili.app.MainActivity;
 import irakli.samniashvili.app.R;
 import irakli.samniashvili.app.sruladActivity;
 
@@ -57,6 +58,8 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
     @SuppressLint("CutPasteId")
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated( view, savedInstanceState );
+
+
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child( "ALLmovies").child( getArguments().getString( "url" ));
         progressBar3 = view.findViewById( R.id.progressBar3 );
         mLayoutManager = new LinearLayoutManager(getContext());
