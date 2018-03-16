@@ -75,7 +75,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.63"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:srcCompat="@drawable/com_facebook_auth_dialog_background" />
 
             <ProgressBar
                 android:id="@+id/progressBar2"

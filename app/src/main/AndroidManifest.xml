@@ -29,8 +29,8 @@
         </activity>
         <activity
             android:name=".PLayer2Activity"
-            android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".sruladActivity"
@@ -88,6 +88,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".Fragments.SeriesFullActivity"></activity>
     </application>
 
 </manifest>

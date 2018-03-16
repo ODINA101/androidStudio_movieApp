@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import irakli.samniashvili.app.Fragments.page2;
+import irakli.samniashvili.app.Fragments.series;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -123,7 +124,9 @@ private Fragment ffragment;
 
 
 
-
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -146,6 +149,9 @@ private Fragment ffragment;
               bundle.putString("url", "ანიმაცია");
               fragment = new page2();
               fragment.setArguments(bundle);
+              break;
+          case R.id.nav_series:
+              fragment = new series();
               break;
           case R.id.nav_sashineleba:
               bundle = new Bundle();

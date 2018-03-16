@@ -10,7 +10,9 @@
             android:id="@+id/nav_home"
             android:title="მთავარი" />
 
-
+        <item
+            android:id="@+id/nav_series"
+            android:title="სერიალები" />
 
         <item
             android:id="@+id/nav_animaciuri"
