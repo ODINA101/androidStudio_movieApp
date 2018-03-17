@@ -8,10 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import irakli.samniashvili.app.SruladFragments.comments;
 import irakli.samniashvili.app.SruladFragments.details;
 
 public class sruladActivity extends AppCompatActivity {
+    private InterstitialAd mInterstitialAd;
     private Toolbar toolbar;
     private static final String TAG = "MainActivity";
 
@@ -27,8 +31,16 @@ public class sruladActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_srulad );
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-6370427711797263/8829887578");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         dat =  getIntent().getExtras().getStringArray("data");
 
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+
+        }
 
 
         Bundle bundle = new Bundle();

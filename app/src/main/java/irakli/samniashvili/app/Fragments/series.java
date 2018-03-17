@@ -37,7 +37,6 @@ public class series extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-   //getActivity().getActionBar().setTitle("");
         ((MainActivity) getActivity())
                 .setActionBarTitle("სერიალები");
 
