@@ -1,12 +1,17 @@
 package irakli.samniashvili.app.SruladFragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +22,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -28,16 +34,20 @@ import android.widget.TextView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.squareup.picasso.Downloader;
 import com.squareup.picasso.Picasso;
+import com.yarolegovich.lovelydialog.LovelyInfoDialog;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.logging.Logger;
 
 import irakli.samniashvili.app.PLayer2Activity;
 import irakli.samniashvili.app.R;
+import okhttp3.Request;
 import ru.whalemare.sheetmenu.SheetMenu;
 
 /**
@@ -46,7 +56,10 @@ import ru.whalemare.sheetmenu.SheetMenu;
 
 @SuppressLint("ValidFragment")
 public class details extends Fragment {
+    private long enqueue;
 
+
+    private DownloadManager dm;
     public TextView mName;
     public ImageView mImage;
     private String getDetails1;
@@ -59,7 +72,7 @@ public class details extends Fragment {
     public FloatingActionButton downloadbtn;
 public DownloadManager downloadManager;
     private FloatingActionButton playMovie;
-
+    float megAvailable;
     public details(String name, String img1, String des1, String videohd, String videosd) {
         this.name1 = name;
         this.img1 = img1;
@@ -86,6 +99,20 @@ public DownloadManager downloadManager;
         Picasso.with( getContext() ).load( img1 ).into( mImage );
         downloadbtn = view.findViewById( R.id.download );
 
+        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+
+        File path = Environment.getDataDirectory();
+        StatFs stat2 = new StatFs(path.getPath());
+        long blockSize = stat2.getBlockSize();
+        long availableBlocks = stat2.getAvailableBlocks();
+
+
+System.out.print(Formatter.formatFileSize(getContext(), availableBlocks * blockSize));
+
+       String gbs = Formatter.formatFileSize(getContext(), availableBlocks * blockSize).replace("GB", "");
+
+
+megAvailable = Float.parseFloat(gbs);
 
         downloadbtn.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -113,6 +140,8 @@ public DownloadManager downloadManager;
     int id = 1;
 
     public void opensheet2() {
+
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         mNotifyManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -146,33 +175,104 @@ public DownloadManager downloadManager;
                         if(item.getItemId() == R.id.magali) {
 
 
-                            downloadbtn.setOnClickListener( new View.OnClickListener() {
-                               @Override
-                              public void onClick(View v) {
-                                   new Downloader().execute(videohd1 );
-                                }
-                            } );
+                            if( megAvailable > 1.50) {
 
+    dm = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+    final DownloadManager.Request request = new DownloadManager.Request(
+            Uri.parse(videohd1));
+
+    enqueue = dm.enqueue(request);
+    request.setShowRunningNotification(true);
+    request.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory().getAbsolutePath(), "Download");
+    BroadcastReceiver onComplete = new BroadcastReceiver() {
+        public void onReceive(Context ctxt, Intent intent) {
+            long referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+
+            Log.e("INSIDE", "" + referenceId);
+            PendingIntent intent2 = PendingIntent.getActivity(getContext(), 0,
+                    new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS), 0);
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(getContext())
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentTitle(name1)
+                            .setContentIntent(intent2)
+                            .setContentText("გადმოწერა წარმატებით დასრულდა");
+
+            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify((int) referenceId, mBuilder.build());
+
+        }
+    };
+    getActivity().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+}else {
+                                /////////////////////
+
+
+                                new LovelyInfoDialog(getContext())
+                                        .setTopColorRes(R.color.common_google_signin_btn_text_dark_default)
+                                        .setIcon(R.drawable.ic_error_black_24dp)
+                                        //This will add Don't show again checkbox to the dialog. You can pass any ID as argument
+
+                                        .setTitle("მოხდა შეცდომა")
+                                        .setMessage("თქვენ არ გაქვთ საკმარისი მეხსიერება")
+                                        .create()
+                                        .show();
+
+
+
+
+                            }
                         }else {
-                            StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
-                            long bytesAvailable;
-                            if (android.os.Build.VERSION.SDK_INT >=
-                                    android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                                bytesAvailable = stat.getBlockSizeLong() * stat.getAvailableBlocksLong();
-                            }
-                            else {
-                                bytesAvailable = (long)stat.getBlockSize() * (long)stat.getAvailableBlocks();
-                            }
-                            long megAvailable = bytesAvailable / (1024 * 1024);
-
-                            if(megAvailable < 1500) {
-                                Log.e("irakli", "Available MB : " + megAvailable);
-                            }else {
-                                new Downloader().execute(videosd1);
-                            }
+                          if( megAvailable > 1.50) {
 
 
-                         }
+                              dm = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+                              final DownloadManager.Request request = new DownloadManager.Request(
+                                      Uri.parse(videosd1));
+
+                              enqueue = dm.enqueue(request);
+                              request.setShowRunningNotification(true);
+                              request.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory().getAbsolutePath(), "Download");
+                              BroadcastReceiver onComplete = new BroadcastReceiver() {
+                                  public void onReceive(Context ctxt, Intent intent) {
+                                      long referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+
+                                      Log.e("INSIDE", "" + referenceId);
+                                      PendingIntent intent2 = PendingIntent.getActivity(getContext(), 0,
+                                              new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS), 0);
+                                      NotificationCompat.Builder mBuilder =
+                                              new NotificationCompat.Builder(getContext())
+                                                      .setSmallIcon(R.mipmap.ic_launcher)
+                                                      .setContentTitle(name1)
+                                                      .setContentIntent(intent2)
+                                                      .setContentText("გადმოწერა წარმატებით დასრულდა");
+
+                                      NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+                                      notificationManager.notify((int) referenceId, mBuilder.build());
+
+                                  }
+                              };
+                              getActivity().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+
+                          }else{
+
+                              new LovelyInfoDialog(getContext())
+                                      .setTopColorRes(R.color.common_google_signin_btn_text_dark_default)
+                                      .setIcon(R.drawable.ic_error_black_24dp)
+                                      //This will add Don't show again checkbox to the dialog. You can pass any ID as argument
+
+                                      .setTitle("მოხდა შეცდომა")
+                                      .setMessage("თქვენ არ გაქვთ საკმარისი მეხსიერება")
+                                      .create()
+                                      .show();
+
+
+                          }
+
+
+
+                        }
                        return false;
 
                     }
@@ -180,65 +280,12 @@ public DownloadManager downloadManager;
 
 
 
+
     }
 
 
-    public class Downloader extends AsyncTask<String, String, String> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mBuilder.setProgress(100, 0, false);
-            mNotifyManager.notify(id, mBuilder.build());
 
-        }
-
-        @Override
-        protected String doInBackground(String... aurl) {
-            int count;
-
-            try {
-                URL url = new URL(aurl[0]);
-                URLConnection conexion = url.openConnection();
-                conexion.connect();
-
-                int lenghtOfFile = conexion.getContentLength();
-                Log.d("ANDRO_ASYNC", "Lenght of file: " + lenghtOfFile);
-
-                InputStream input = new BufferedInputStream(url.openStream());
-                OutputStream output = new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)  + name1 + ".mp4");
-
-                byte data[] = new byte[8192];
-
-                long total = 0;
-
-                while ((count = input.read(data)) != -1) {
-                    total += count;
-                    publishProgress(""+(int)((total*100)/lenghtOfFile));
-                    output.write(data, 0, count);
-                }
-
-                output.flush();
-                output.close();
-                input.close();
-            } catch (Exception e) {}
-            return null;
-
-        }
-        protected void onProgressUpdate(String... progress) {
-            Log.d("ANDRO_ASYNC",progress[0]);
-            mBuilder.setProgress(100, Integer.parseInt(progress[0]), false);
-            mNotifyManager.notify(id, mBuilder.build());
-        }
-
-        @Override
-        protected void onPostExecute(String unused) {
-            mBuilder.setContentText("ფილმის გადმოწერა დასრულდა");
-            // Removes the progress bar
-            mBuilder.setProgress(0, 0, false);
-            mNotifyManager.notify(id, mBuilder.build());
-        }
-    }
 
 
 
@@ -250,6 +297,7 @@ public DownloadManager downloadManager;
         Long reference = downloadManager.enqueue( request );
 
         request.setNotificationVisibility( DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED );
+       // getActivity().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     public void opensheet(final Intent movi, String type) {

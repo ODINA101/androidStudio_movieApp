@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.yarolegovich.lovelydialog.LovelyInfoDialog;
 
 import irakli.samniashvili.app.SruladFragments.comments;
 import irakli.samniashvili.app.SruladFragments.details;
@@ -32,7 +33,7 @@ public class sruladActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_srulad );
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-6370427711797263/8829887578");
+        mInterstitialAd.setAdUnitId("ca-app-pub-6370427711797263/8444912872");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
         dat =  getIntent().getExtras().getStringArray("data");
 
@@ -41,6 +42,7 @@ public class sruladActivity extends AppCompatActivity {
         } else {
 
         }
+
 
 
         Bundle bundle = new Bundle();
