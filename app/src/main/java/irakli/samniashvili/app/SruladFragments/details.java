@@ -111,8 +111,17 @@ System.out.print(Formatter.formatFileSize(getContext(), availableBlocks * blockS
 
        String gbs = Formatter.formatFileSize(getContext(), availableBlocks * blockSize).replace("GB", "");
 
+       if(gbs.contains("MB")) {
 
-megAvailable = Float.parseFloat(gbs);
+          gbs = gbs.replace("MB","");
+       }
+  if(gbs.contains(",")) {
+      megAvailable = Float.parseFloat(gbs.replace(",","."));
+
+  }else{
+      megAvailable = Float.parseFloat(gbs);
+
+  }
 
         downloadbtn.setOnClickListener( new View.OnClickListener() {
             @Override

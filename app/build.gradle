@@ -6,8 +6,8 @@ android {
         applicationId "irakli.samniashvili.app"
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode 28
-        versionName "25.2"
+        versionCode 31
+        versionName "26"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }

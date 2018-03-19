@@ -43,10 +43,10 @@ private AdRequest adRequest;
 
 
         MobileAds.initialize(this,
-                "ca-app-pub-6370427711797263~5369895652");
+                "ca-app-pub-6370427711797263~1015331954");
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-6370427711797263/9578881209");
+        mInterstitialAd.setAdUnitId("ca-app-pub-6370427711797263/8444912872");
 
 
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
