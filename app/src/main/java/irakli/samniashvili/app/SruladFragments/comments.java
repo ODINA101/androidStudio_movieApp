@@ -30,6 +30,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -251,22 +252,39 @@ public class comments extends Fragment {
         @Override
         public void onStart() {
             super.onStart();
+
+
+            FirebaseRecyclerOptions<movies> options = new FirebaseRecyclerOptions.Builder<movies>()
+                    .setQuery(mUsersDatabase,movies.class)
+                    .build();
+
             FirebaseRecyclerAdapter<movies,moviesViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<movies,moviesViewHolder>(
-                    movies.class,
-                    R.layout.single_comment,
-                    moviesViewHolder.class,
-                    mUsersDatabase
+  options
+
+
+
+                    //                    movies.class,
+//                    R.layout.single_comment,
+//                    moviesViewHolder.class,
+//
             ) {
 
+                @NonNull
                 @Override
-                public void populateViewHolder(moviesViewHolder moviesViewHolder, movies movies, int i) {
-                    moviesViewHolder.setName(movies.getName());
-                    moviesViewHolder.setphoto( movies.getPhoto() );
-                    moviesViewHolder.setComment( movies.getComment() );
+                public moviesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+                    View view = getLayoutInflater().inflate(R.layout.single_comment, parent,false);
+                    return new moviesViewHolder(view);
+                }
 
+                @Override
+                protected void onBindViewHolder(@NonNull moviesViewHolder holder, int position, @NonNull movies model) {
+                    holder.setName(model.getName());
+                    holder.setphoto( model.getPhoto() );
+                    holder.setComment(model.getComment() );
 
                 }
+
 
             };
             mUsersList.setAdapter(firebaseRecyclerAdapter);
@@ -274,6 +292,8 @@ public class comments extends Fragment {
             // Check if user is signed in (non-null) and update UI accordingly.
             FirebaseUser currentUser = mAuth.getCurrentUser();
             updateUI(currentUser);
+
+            firebaseRecyclerAdapter.startListening();
         }
 
 
@@ -301,7 +321,7 @@ public class comments extends Fragment {
         }
         void setphoto(String url) {
             CircleImageView userImageView = mView.findViewById( R.id.user_single_image );
-            Picasso.with(context).load(url).into(userImageView);
+            Picasso.get().load(url).into(userImageView);
         }
     }
 

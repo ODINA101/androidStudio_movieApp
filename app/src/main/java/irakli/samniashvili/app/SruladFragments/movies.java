@@ -7,7 +7,7 @@ package irakli.samniashvili.app.SruladFragments;
 public class movies {
     public String name;
     public String photo;
-    public String comment;
+    public static String comment;
 
     public String getName() {
         return name;

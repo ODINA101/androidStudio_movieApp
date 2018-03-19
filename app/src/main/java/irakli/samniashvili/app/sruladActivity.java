@@ -7,9 +7,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.yarolegovich.lovelydialog.LovelyInfoDialog;
 
 import irakli.samniashvili.app.SruladFragments.comments;
@@ -26,22 +29,42 @@ public class sruladActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
 
-
+private AdRequest adRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_srulad );
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-6370427711797263/8444912872");
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+
+
         dat =  getIntent().getExtras().getStringArray("data");
 
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        } else {
 
-        }
+
+        MobileAds.initialize(this,
+                "ca-app-pub-6370427711797263~5369895652");
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-6370427711797263/9578881209");
+
+
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+
+                mInterstitialAd.show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+
+            }
+        });
+
 
 
 

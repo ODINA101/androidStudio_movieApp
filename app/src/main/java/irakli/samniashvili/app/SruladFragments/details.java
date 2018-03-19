@@ -96,7 +96,7 @@ public DownloadManager downloadManager;
         mName = view.findViewById( R.id.des );
         mName.setText( des );
         mImage = view.findViewById( R.id.movie_img );
-        Picasso.with( getContext() ).load( img1 ).into( mImage );
+        Picasso.get( ).load( img1 ).into( mImage );
         downloadbtn = view.findViewById( R.id.download );
 
         StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());

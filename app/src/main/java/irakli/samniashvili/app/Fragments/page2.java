@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -23,6 +24,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -57,7 +63,12 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
 
     @SuppressLint("CutPasteId")
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated( view, savedInstanceState );
+
+
+        ((MainActivity) getActivity())
+                .setActionBarTitle(getArguments().getString( "url" ));
 
 
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child( "ALLmovies").child( getArguments().getString( "url" ));
@@ -77,17 +88,26 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
     }
 
     public void  recyclerviewRefresh() {
-
+        FirebaseRecyclerOptions<MyData> options = new FirebaseRecyclerOptions.Builder<MyData>()
+                .setQuery(firebaseSearchQuery,MyData.class)
+                .build();
 
         FirebaseRecyclerAdapter<MyData, mydataViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<MyData, mydataViewHolder>(
-
-                MyData.class,
-                R.layout.one_item,
+ options
+           /*     MyData.class,
+               ,
                 mydataViewHolder.class,
-                firebaseSearchQuery
+                firebaseSearchQuery*/
         ) {
+            @NonNull
             @Override
-            protected void populateViewHolder(final mydataViewHolder viewHolder, final MyData model, int position) {
+            public mydataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = getLayoutInflater().inflate( R.layout.one_item, parent,false);
+                return new mydataViewHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull mydataViewHolder viewHolder, int position, @NonNull final MyData model) {
                 viewHolder.setName( model.getName() );
                 viewHolder.setPhoto(model.getPhoto());
                 progressBar3.setVisibility( View.GONE );
@@ -105,20 +125,23 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
                     @Override
                     public void onClick(View v) {
                         Intent srulad = new Intent( getContext(), sruladActivity.class );
-                    //    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation( (Activity) viewHolder.mView.getContext(),viewHolder.userImageView,"mIMG" );
+                        //    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation( (Activity) viewHolder.mView.getContext(),viewHolder.userImageView,"mIMG" );
                         srulad.putExtra( "data", arr );
                         startActivity( srulad  );
 
                     }
 
                 } );
-
             }
+
+
 
 
         };
 
         recyclerView.setAdapter(firebaseRecyclerAdapter );
+        firebaseRecyclerAdapter.startListening();
+
     }
 
     public void firebaseUserSearch(String searchText) {
@@ -156,16 +179,17 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
 
             Log.d("myphotourl",photoName);
 
-            Picasso.with(mView.getContext()).load( Uri.parse(photoName)).placeholder( R.drawable.white).into( userImageView, new Callback() {
+            Picasso.get().load( Uri.parse(photoName)).placeholder( R.drawable.white).into( userImageView, new Callback() {
                 @Override
                 public void onSuccess() {
                     progressBar.setVisibility( View.GONE );
                 }
 
                 @Override
-                public void onError() {
+                public void onError(Exception e) {
 
                 }
+
             } );
         }
 

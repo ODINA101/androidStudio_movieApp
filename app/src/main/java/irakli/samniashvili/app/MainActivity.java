@@ -19,6 +19,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import irakli.samniashvili.app.Fragments.page2;
@@ -28,11 +34,13 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 private Fragment ffragment;
     private static final String TAG = "MainActivity";
+    private AdView mAdView;
 
     private Handler mHandler;       // Handler to display the ad on the UI thread
     private Runnable displayAd;
     Toolbar toolbar;
     private ProgressDialog progressDialog;
+private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +51,14 @@ private Fragment ffragment;
         setSupportActionBar( toolbar );
 
  checkwifi();
+/*
 
 
 
+*/
 
 
-
-    if(getIntent().getExtras() != null) {
+        if(getIntent().getExtras() != null) {
         for(String key : getIntent().getExtras().keySet())
         {
             if(key.equals( "title" )) {

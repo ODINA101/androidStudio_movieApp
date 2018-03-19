@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -48,34 +49,50 @@ public class series extends Fragment {
 
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
-
+        FirebaseRecyclerOptions<seriesModel> options = new FirebaseRecyclerOptions.Builder<seriesModel>()
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("series"),seriesModel.class)
+                .build();
         FirebaseRecyclerAdapter<seriesModel,seriesModelHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<seriesModel, seriesModelHolder>(
-                seriesModel.class,
-                R.layout.one_item,
-                seriesModelHolder.class,
-                FirebaseDatabase.getInstance().getReference().child("series")
+ options
+
+
+                //                seriesModel.class,
+//                R.layout.one_item,
+//                seriesModelHolder.class,
+//                FirebaseDatabase.getInstance().getReference().child("series")
 
 
         ) {
+            @NonNull
             @Override
-            protected void populateViewHolder(seriesModelHolder viewHolder, final seriesModel model, final int position) {
+            public seriesModelHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = getLayoutInflater().inflate(R.layout.one_item, parent,false);
+                return new seriesModelHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull seriesModelHolder viewHolder, final int position, @NonNull final seriesModel model) {
                 viewHolder.name.setText(model.getName());
                 viewHolder.setPhoto(model.getPhoto());
                 viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent srulad = new Intent(view.getContext(),SeriesFullActivity.class);
-                       srulad.putExtra("ref",getRef(position).getKey());
-                      srulad.putExtra("photo",model.getPhoto());
-                      srulad.putExtra("des",model.getDes());
+                        srulad.putExtra("ref",getRef(position).getKey());
+                        srulad.putExtra("photo",model.getPhoto());
+                        srulad.putExtra("des",model.getDes());
                         srulad.putExtra("name",model.getName());
 
                         startActivity(srulad);
                     }
                 });
             }
+
+
         };
 recyclerView.setAdapter(firebaseRecyclerAdapter);
+        firebaseRecyclerAdapter.startListening();
+
     }
 
 
@@ -96,16 +113,18 @@ recyclerView.setAdapter(firebaseRecyclerAdapter);
         }
 
         public void setPhoto(String data) {
-            Picasso.with(itemView.getContext()).load(data).into(photo, new Callback() {
+            Picasso.get().load(data).into(photo, new Callback() {
                 @Override
                 public void onSuccess() {
                     progressBar.setVisibility(View.GONE);
                 }
 
                 @Override
-                public void onError() {
+                public void onError(Exception e) {
 
                 }
+
+
             });
         }
 

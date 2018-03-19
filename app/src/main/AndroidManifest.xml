@@ -78,6 +78,8 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/cardview_dark_background" />
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <service
             android:name=".MyFirebaseInstanceIDService"
@@ -93,7 +95,11 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Fragments.SeriesFullActivity"></activity>
+        <activity android:name=".Fragments.SeriesFullActivity"
+            android:screenOrientation="portrait"
+            >
+
+        </activity>
 
     </application>
 
