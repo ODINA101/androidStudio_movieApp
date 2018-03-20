@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView  android:layout_width="match_parent"
+    android:layout_height="match_parent" xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="irakli.samniashvili.app.Fragments.SeriesFullActivity">
-
-    <ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.gjiazhe.scrollparallaximageview.ScrollParallaxImageView
         android:id="@+id/serialPhoto"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="200dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
 
         app:srcCompat="@drawable/common_google_signin_btn_icon_light_focused" />
     <TextView
@@ -49,3 +53,5 @@
 
 
 </RelativeLayout>
+
+</ScrollView>

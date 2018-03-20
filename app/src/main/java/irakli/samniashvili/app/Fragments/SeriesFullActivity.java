@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.gjiazhe.scrollparallaximageview.ScrollParallaxImageView;
+import com.gjiazhe.scrollparallaximageview.parallaxstyle.VerticalMovingStyle;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -87,11 +89,15 @@ public class SeriesFullActivity extends AppCompatActivity {
        }
    });
 
-        Picasso.get().load(getIntent().getExtras().getString("photo")).into((ImageView) findViewById(R.id.serialPhoto));
+
+        ScrollParallaxImageView vt = findViewById(R.id.serialPhoto);
+        Picasso.get().load(getIntent().getExtras().getString("photo")).into(vt);
         TextView des;
         des = findViewById(R.id.des);
         des.setText(getIntent().getExtras().getString("des"));
 
+        vt.setEnableScrollParallax(true);
+        vt.setParallaxStyles(new VerticalMovingStyle());
 
 
 

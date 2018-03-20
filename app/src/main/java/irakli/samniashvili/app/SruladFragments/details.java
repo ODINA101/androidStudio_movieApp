@@ -31,7 +31,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fmsirvent.ParallaxEverywhere.PEWImageView;
+
+import com.gjiazhe.scrollparallaximageview.ScrollParallaxImageView;
+import com.gjiazhe.scrollparallaximageview.parallaxstyle.VerticalAlphaStyle;
+import com.gjiazhe.scrollparallaximageview.parallaxstyle.VerticalMovingStyle;
+import com.gjiazhe.scrollparallaximageview.parallaxstyle.VerticalScaleStyle;
 import com.google.android.gms.ads.InterstitialAd;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Downloader;
@@ -64,7 +68,7 @@ public class details extends Fragment {
 
     private DownloadManager dm;
     public TextView mName;
-    public PEWImageView mImage;
+    public ScrollParallaxImageView mImage;
     private String getDetails1;
     private String name1;
     private String img1;
@@ -100,8 +104,9 @@ public DownloadManager downloadManager;
         mName.setText( des );
         mImage = view.findViewById( R.id.movie_img );
 
-        ImageView imageView =view.findViewById(R.id.movie_img2);
+        ScrollParallaxImageView imageView =view.findViewById(R.id.movie_img2);
         Picasso.get( ).load( img1 ).into(imageView);
+        imageView.setParallaxStyles(new VerticalAlphaStyle());
         Picasso.get( ).load( img1 ).into(mImage, new Callback() {
             @Override
             public void onSuccess() {
@@ -112,6 +117,9 @@ public DownloadManager downloadManager;
 
           }
       });
+                mImage.setEnableScrollParallax(true);
+
+                mImage.setParallaxStyles(new VerticalMovingStyle());
             }
 
             @Override

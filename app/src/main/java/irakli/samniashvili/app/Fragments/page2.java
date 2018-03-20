@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +42,11 @@ import org.json.JSONObject;
 import irakli.samniashvili.app.MainActivity;
 import irakli.samniashvili.app.R;
 import irakli.samniashvili.app.sruladActivity;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
+import jp.wasabeef.recyclerview.animators.holder.AnimateViewHolder;
 
 /**
  * Created by irakli on 12/21/2017.
@@ -138,9 +145,11 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
 
 
         };
-
-        recyclerView.setAdapter(firebaseRecyclerAdapter );
+        SlideInBottomAnimationAdapter alphaAdapter = new SlideInBottomAnimationAdapter(firebaseRecyclerAdapter);
+        alphaAdapter.setFirstOnly(false);
+        recyclerView.setAdapter(alphaAdapter);
         firebaseRecyclerAdapter.startListening();
+        recyclerView.setItemAnimator(new SlideInLeftAnimator());
 
     }
 
@@ -152,7 +161,7 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
     }
 
 
-     public static class mydataViewHolder extends RecyclerView.ViewHolder {
+     public static class mydataViewHolder extends RecyclerView.ViewHolder implements AnimateViewHolder {
         TextView userNameBtn;
        CardView sruladBtn;
           View mView;
@@ -193,7 +202,32 @@ public class page2 extends Fragment implements SearchView.OnQueryTextListener {
             } );
         }
 
-    }
+         @Override
+         public void preAnimateAddImpl(RecyclerView.ViewHolder holder) {
+             ViewCompat.setTranslationY(itemView, -itemView.getHeight() * 0.3f);
+             ViewCompat.setAlpha(itemView, 0);
+         }
+
+         @Override
+         public void preAnimateRemoveImpl(RecyclerView.ViewHolder holder) {
+
+         }
+
+         @Override
+         public void animateAddImpl(RecyclerView.ViewHolder holder, ViewPropertyAnimatorListener listener) {
+             ViewCompat.animate(itemView)
+                     .translationY(0)
+                     .alpha(1)
+                     .setDuration(300)
+                     .setListener(listener)
+                     .start();
+         }
+
+         @Override
+         public void animateRemoveImpl(RecyclerView.ViewHolder holder, ViewPropertyAnimatorListener listener) {
+
+         }
+     }
 
 
 

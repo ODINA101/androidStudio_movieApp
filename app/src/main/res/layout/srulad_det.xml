@@ -11,6 +11,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:backgroundTint="#FFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,7 +19,8 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFF">
 
             <TextView
                 android:id="@+id/des"
@@ -37,9 +39,9 @@
                 app:layout_constraintVertical_bias="0.01999998" />
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/cont"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-android:id="@+id/cont"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:background="@drawable/com_facebook_auth_dialog_header_background"
@@ -49,15 +51,15 @@ android:id="@+id/cont"
                 android:orientation="vertical">
 
 
-                <com.fmsirvent.ParallaxEverywhere.PEWImageView
+                <com.gjiazhe.scrollparallaximageview.ScrollParallaxImageView
                     android:id="@+id/movie_img"
                     android:layout_width="fill_parent"
-                    android:layout_height="400dp"
+                    android:layout_height="250dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:layout_marginBottom="8dp"
-                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
                     android:scaleType="fitXY"
                     android:transitionName="mIMG"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -65,17 +67,15 @@ android:id="@+id/cont"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
-                    app:srcCompat="@drawable/ic_launcher_background"
-                    tools:ignore="VectorDrawableCompat" />
+                    app:srcCompat="@drawable/common_google_signin_btn_icon_light_focused"  />
 
 
-                <ImageView
+                <com.gjiazhe.scrollparallaximageview.ScrollParallaxImageView
                     android:id="@+id/movie_img2"
                     android:layout_width="120dp"
                     android:layout_height="170dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
                     android:scaleType="fitXY"
@@ -85,9 +85,8 @@ android:id="@+id/cont"
                     app:layout_constraintHorizontal_bias="0.25"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.100000024"
-                    app:srcCompat="@drawable/ic_launcher_background"
-                    tools:ignore="VectorDrawableCompat" />
+                    app:layout_constraintVertical_bias="0.35000002"
+                    app:srcCompat="@drawable/common_google_signin_btn_icon_light_focused" />
 
 
                 <android.support.design.widget.FloatingActionButton
@@ -99,6 +98,7 @@ android:id="@+id/cont"
                     android:layout_marginTop="8dp"
                     android:clickable="true"
                     app:backgroundTint="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@+id/playMovie"
                     app:layout_constraintEnd_toStartOf="@+id/playMovie"
                     app:layout_constraintHorizontal_bias="0.07"
                     app:layout_constraintStart_toStartOf="parent"
