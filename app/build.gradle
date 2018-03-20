@@ -6,8 +6,8 @@ android {
         applicationId "irakli.samniashvili.app"
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode 31
-        versionName "26"
+        versionCode 32
+        versionName "30"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -52,6 +52,8 @@ dependencies {
     compile 'com.android.support:multidex:1.0.3'
     compile 'com.afollestad:easyvideoplayer:0.3.0'
     compile 'com.yarolegovich:lovely-dialog:1.1.0'
+    compile 'jp.wasabeef:blurry:2.1.1'
+    compile 'com.fmsirvent:parallaxeverywhere:1.0.4'
 }
 
 

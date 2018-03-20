@@ -31,7 +31,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fmsirvent.ParallaxEverywhere.PEWImageView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Downloader;
 import com.squareup.picasso.Picasso;
 import com.yarolegovich.lovelydialog.LovelyInfoDialog;
@@ -47,6 +49,7 @@ import java.util.logging.Logger;
 
 import irakli.samniashvili.app.PLayer2Activity;
 import irakli.samniashvili.app.R;
+import jp.wasabeef.blurry.Blurry;
 import okhttp3.Request;
 import ru.whalemare.sheetmenu.SheetMenu;
 
@@ -61,7 +64,7 @@ public class details extends Fragment {
 
     private DownloadManager dm;
     public TextView mName;
-    public ImageView mImage;
+    public PEWImageView mImage;
     private String getDetails1;
     private String name1;
     private String img1;
@@ -91,12 +94,31 @@ public DownloadManager downloadManager;
 
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated( view, savedInstanceState );
         mName = view.findViewById( R.id.des );
         mName.setText( des );
         mImage = view.findViewById( R.id.movie_img );
-        Picasso.get( ).load( img1 ).into( mImage );
+
+        ImageView imageView =view.findViewById(R.id.movie_img2);
+        Picasso.get( ).load( img1 ).into(imageView);
+        Picasso.get( ).load( img1 ).into(mImage, new Callback() {
+            @Override
+            public void onSuccess() {
+      mImage.post(new Runnable() {
+          @Override
+          public void run() {
+              Blurry.with(getContext()).capture(mImage).into(mImage);
+
+          }
+      });
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
         downloadbtn = view.findViewById( R.id.download );
 
         StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
@@ -116,10 +138,13 @@ System.out.print(Formatter.formatFileSize(getContext(), availableBlocks * blockS
           gbs = gbs.replace("MB","");
        }
   if(gbs.contains(",")) {
-      megAvailable = Float.parseFloat(gbs.replace(",","."));
+      gbs = gbs.replace(",",".");
+
+      megAvailable = Float.valueOf(gbs.replaceAll("[^\\d.]+|\\.(?!\\d)", ""));
 
   }else{
-      megAvailable = Float.parseFloat(gbs);
+      megAvailable = Float.valueOf(gbs.replaceAll("[^\\d.]+|\\.(?!\\d)", ""));
+
 
   }
 

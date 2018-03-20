@@ -1,70 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:pew="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-    android:layout_height="500dp">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="500dp"
-
-            android:background="@drawable/com_facebook_auth_dialog_header_background"
-            android:backgroundTint="@color/com_facebook_button_login_silver_background_color"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/movie_img"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="18dp"
-                app:srcCompat="@drawable/ic_launcher_background"
-                tools:ignore="VectorDrawableCompat"
-                android:transitionName="mIMG"/>
-
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/des"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/movie_img"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="39dp"
-                android:text="ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
-                android:textColor="@android:color/background_dark" />
+                android:layout_below="@+id/cont"
+                android:layout_marginBottom="8dp"
+                android:padding="30dp"
+                android:text="xxx"
+                android:textColor="@android:color/background_dark"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintVertical_bias="0.01999998" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+android:id="@+id/cont"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/com_facebook_auth_dialog_header_background"
+                android:backgroundTint="#FFF"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical">
 
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/download"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/des"
-                android:layout_marginStart="50dp"
-                android:clickable="true"
-                app:backgroundTint="@color/colorPrimary"
-                app:srcCompat="@drawable/ic_file_download"
-                tools:ignore="VectorDrawableCompat" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/playMovie"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/des"
-                android:layout_alignEnd="@+id/movie_img"
-                android:layout_marginEnd="50dp"
-                android:clickable="true"
-                app:backgroundTint="@color/colorPrimary"
-                app:srcCompat="@android:drawable/ic_media_play" />
+                <com.fmsirvent.ParallaxEverywhere.PEWImageView
+                    android:id="@+id/movie_img"
+                    android:layout_width="fill_parent"
+                    android:layout_height="400dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:transitionName="mIMG"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_launcher_background"
+                    tools:ignore="VectorDrawableCompat" />
 
 
+                <ImageView
+                    android:id="@+id/movie_img2"
+                    android:layout_width="120dp"
+                    android:layout_height="170dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:transitionName="mIMG"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.25"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.100000024"
+                    app:srcCompat="@drawable/ic_launcher_background"
+                    tools:ignore="VectorDrawableCompat" />
+
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/download"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:layout_constraintEnd_toStartOf="@+id/playMovie"
+                    app:layout_constraintHorizontal_bias="0.07"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/playMovie"
+                    app:srcCompat="@drawable/ic_file_download"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/playMovie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/movie_img"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@+id/movie_img"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.93"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    app:srcCompat="@android:drawable/ic_media_play" />
+
+
+            </android.support.constraint.ConstraintLayout>
         </RelativeLayout>
-</android.support.v4.widget.NestedScrollView>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>
